@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
 
 /**
  * Defines a Bean for the dev-Profile
@@ -37,5 +40,12 @@ public class DevConfiguration implements HasLogger {
         personRepository.save(felixMuster);
         personRepository.save(maxMustermann);
         getLogger().debug("Person felixMuster and maxMustermann saved to DB");
+
+        List<Person> persons = personRepository.findQueryByLastName("Mustermann");
+        persons.forEach(person -> getLogger().debug("person.toString() = " + person.toString()));
+        personRepository.findAll(Sort.by(Sort.Direction.ASC, "lastName")).forEach(person -> {
+            personRepository.findById(person.getId())
+                    .ifPresent(p -> getLogger().debug("person.toString() = " + p));
+        });
     }
 }
