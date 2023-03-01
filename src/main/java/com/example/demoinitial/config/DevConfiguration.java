@@ -4,6 +4,7 @@ import com.example.demoinitial.domain.*;
 import com.example.demoinitial.repository.*;
 import com.example.demoinitial.utils.HasLogger;
 import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Defines a Bean for the dev-Profile
@@ -42,6 +44,9 @@ public class DevConfiguration implements HasLogger {
     @Autowired
     ProjectRepository projectRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     public DevConfiguration() {
         getLogger().info("Dev Configuration Class");
     }
@@ -51,13 +56,19 @@ public class DevConfiguration implements HasLogger {
         createPersonData();
         Employee employeeFelixMuster = createEmployeeFelixMuster();
         Employee employeeJohnDoe = createEmployeeJohnDoe();
+
         createDepartment();
+
         createPhone(employeeFelixMuster.getId());
+
         createDesignProject();
         createQualityProject();
+
         createEmployeeMaxMustermann();
         assignMaxMustermannToDesignProject();
         assignMaxMustermannAsChef();
+
+        createUserData();
     }
 
     public void createPersonData() {
@@ -195,5 +206,20 @@ public class DevConfiguration implements HasLogger {
                 employeeRepository.save(chef);
             });
         });
+    }
+
+    private void createUserData() {
+        createUserIfNotFound("Felix Muster", "felix.muster@example.com", "felix");
+    }
+
+    @Transactional
+    public User createUserIfNotFound(String name, String eMail, String password) {
+        Optional<User> user = userRepository.findByEmail(eMail);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            User newUser = new User(name, eMail, password);
+            return userRepository.save(newUser);
+        }
     }
 }
