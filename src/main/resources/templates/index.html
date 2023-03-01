@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:insert="~{fragments/common.html :: headerfiles}"></th:block>
+    <title>Home Page</title>
+</head>
+<body>
+<h1>Hello !</h1>
+<p>
+    Welcome to <span th:text="${appName}">Our App</span>
+</p>
+
+<footer th:insert="~{fragments/common.html :: footer}"></footer>
+<script th:insert="~{fragments/common.html :: toggleEyeScript}"></script>
+</body>
+</html>
