@@ -2,18 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <th:block th:insert="~{fragments/common.html :: headerfiles}"></th:block>
     <title>Home Page</title>
+    <th:block th:insert="~{fragments/common.html :: headerfiles}"> </th:block>
 </head>
 <body>
-<h1>Hello !</h1>
-<p>
-    Welcome to <span th:text="${appName}">Our App</span>
-</p>
-<p>
-<a href="/users/list">Users</a>
-</p>
-<footer th:insert="~{fragments/common.html :: footer}"></footer>
-<script th:insert="~{fragments/common.html :: toggleEyeScript}"></script>
+<div class="container">
+    <div class="py-5">
+        <a href="/static"><h2>Home</h2></a>
+        <p class="lead"></p>
+    </div>
+    <h1>Hello !</h1>
+    <p>
+        Welcome to <span th:text="${appName}">Our App</span>
+    </p>
+    <p>&nbsp; </p>
+    <p>&nbsp; </p>
+    <p>&nbsp; </p>
+</div>
+<th:block th:insert="~{fragments/common.html :: footer}"></th:block>
 </body>
 </html>
+
